@@ -1,0 +1,8 @@
+# configs/data_config.yaml
+data:
+  raw_path: "data/raw/housing.csv"
+  processed_path: "data/processed/housing_processed.csv"
+
+train_test_split:
+  test_size: 0.2
+  random_state: 42
