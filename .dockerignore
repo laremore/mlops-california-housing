@@ -1,0 +1,22 @@
+# .dockerignore
+.git
+.dvc
+.vscode
+.idea
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+venv
+.env
+.venv
+*.log
+mlruns/
+data/raw/
+notebooks/
+*.ipynb
+.DS_Store
+*.db
+*.sqlite3
