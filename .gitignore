@@ -1,3 +1,12 @@
+# Игнорируем исходные данные, но они будут версионироваться через DVC
+data/raw/
+data/processed/
+
+# Но НЕ игнорируем DVC-файлы!
+!data/raw/*.dvc
+!data/processed/*.dvc
+
+# Остальное из предыдущего шага
 __pycache__/
 *.pyc
 .env
@@ -5,5 +14,4 @@ venv/
 *.pkl
 *.joblib
 .ipynb_checkpoints/
-data/raw/
-data/processed/
+*.csv
