@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   ml-service:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
@@ -10,7 +12,13 @@ services:
       - ./mlflow_data:/app/mlflow_data
     environment:
       - MLFLOW_TRACKING_URI=sqlite:///mlflow_data/mlflow.db
-    restart: unless-stopped
+    restart: always  # Автоматический перезапуск
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   mlflow-ui:
     image: ghcr.io/mlflow/mlflow:latest
@@ -21,8 +29,8 @@ services:
     command: >
       mlflow server
       --backend-store-uri sqlite:///mlflow/mlflow.db
-      --default-artifact-root ./mlruns
       --host 0.0.0.0
       --port 5000
+    restart: always
     depends_on:
       - ml-service
