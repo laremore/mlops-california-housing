@@ -43,5 +43,5 @@ htmlcov/
 *.pyc
 __pycache__/
 
-# Докер
+
 california-housing-ml.tar
