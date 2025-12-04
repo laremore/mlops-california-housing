@@ -1,4 +1,4 @@
-# scripts/preprocess_v1.py (ИСПРАВЛЕННЫЙ)
+
 import pandas as pd
 import numpy as np
 import os

@@ -1,17 +1,47 @@
-# Игнорируем исходные данные, но они будут версионироваться через DVC
-data/raw/
-data/processed/
-
-# Но НЕ игнорируем DVC-файлы!
-!data/raw/*.dvc
-!data/processed/*.dvc
-
-# Остальное из предыдущего шага
+# Python
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist/
+build/
 venv/
-*.pkl
-*.joblib
+.env
+.venv
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter
 .ipynb_checkpoints/
-*.csv
+
+# Data files (original data files - ignored)
+data/raw/*.csv
+data/processed/*.csv
+models/*.pkl
+models/*.joblib
+models/*.h5
+
+# DVC cache (but NOT .dvc files!)
+.dvc/tmp/
+.dvc/cache/
+
+# MLflow
+mlruns/
+
+# Logs
+*.log
+# Тесты
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+*.pyc
+__pycache__/
+
+# Докер
+california-housing-ml.tar

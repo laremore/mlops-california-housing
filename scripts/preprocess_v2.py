@@ -50,9 +50,30 @@ for col in df.select_dtypes(include=[np.number]).columns:
         df[col] = df[col].replace(-np.inf, col_min)
 
 
+
+def clean_column_name(name):
+    """Очищает имя колонки от запрещенных символов."""
+
+    forbidden = ['[', ']', '<', '>', ':', '=', ' ', '(', ')', ',']
+    for char in forbidden:
+        name = str(name).replace(char, '_')
+
+    while '__' in name:
+        name = name.replace('__', '_')
+
+    name = name.strip('_')
+    return name
+
+
+df.columns = [clean_column_name(col) for col in df.columns]
+print(f"\nОчищены имена колонок для совместимости с XGBoost")
+
+
 os.makedirs('data/processed', exist_ok=True)
 output_path = 'data/processed/housing_processed_v2.csv'
 df.to_csv(output_path, index=False)
 
 print(f"\nСохранено: {output_path}")
 print(f"Итоговый размер: {len(df)} строк, {df.shape[1]} колонок")
+print(f"Пример имен колонок: {df.columns[:5].tolist()}")
+print("Готово!")

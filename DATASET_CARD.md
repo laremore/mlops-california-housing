@@ -78,9 +78,7 @@
 ```python
 import pandas as pd
 
-# Загрузка данных
 df = pd.read_csv('data/processed/housing_processed_v2.csv')
 
-# Для обучения
 X = df.drop(columns=['median_house_value', 'median_house_value_log'])
 y = df['median_house_value_log']  # или df['median_house_value']

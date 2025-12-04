@@ -1,0 +1,25 @@
+
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+
+model:
+  path: "models/best_model.joblib"
+  version: "1.0"
+  description: "XGBoost model for California housing prices"
+
+features:
+  required_features: [
+    "longitude", "latitude", "housing_median_age", 
+    "total_rooms", "total_bedrooms", "population", 
+    "households", "median_income", "bedrooms_per_room",
+    "population_per_household", "households_per_population",
+    "ocean__INLAND", "ocean__NEAR_BAY", "ocean__NEAR_OCEAN",
+    "ocean__ISLAND"
+  ]
+
+preprocessing:
+  fill_na_with_mean: true
+  log_transform_target: true
