@@ -29,7 +29,6 @@ jobs:
         mkdir -p data/raw data/processed models
         echo "Creating test data structure..."
         
-        # Минимальные тестовые данные
         echo 'test' > data/raw/housing.csv
         echo 'test' > data/processed/housing_processed_v1.csv
         echo 'test' > data/processed/housing_processed_v2.csv
@@ -40,7 +39,6 @@ jobs:
         echo "RUNNING TESTS"
         echo "================"
         
-        # Гарантированные тесты
         python -c "
         print('1. Basic assertion test...')
         assert 1 + 1 == 2
@@ -94,7 +92,7 @@ jobs:
         docker images | grep california-housing-ml
         
         echo "3. Testing image..."
-        docker run --rm california-housing-ml:latest python -c "print('Docker image works correctly')"
+        docker run --rm california-housing-ml:latest python -c "print('✅ Docker image works correctly')"
         
         echo "Build completed successfully!"
         
@@ -134,23 +132,13 @@ jobs:
         echo "======================"
         
         echo "1. Starting container..."
-        CONTAINER_ID=$(docker run -d \
+        docker run -d \
           --name deployed-ml-service \
           -p 8000:8000 \
           california-housing-ml:latest \
-          python -c "
-import time
-
-print('ML SERVICE DEPLOYED SUCCESSFULLY')
-
-print('Service: California Housing Price Predictor')
-print('Port: 8000')
-print('Status: Running')
-
-time.sleep(45)
-          ")
+          python -c "import time; print('ML Service deployed!'); time.sleep(30)"
         
-        echo "Container started with ID: ${CONTAINER_ID:0:12}"
+        echo "Container started"
         
     - name: Verify deployment
       run: |
@@ -198,9 +186,6 @@ time.sleep(45)
         
         echo "2. Removing container..."
         docker rm deployed-ml-service || true
-        
-        echo "3. Cleaning up images..."
-        docker image rm california-housing-ml:latest || true
         
         echo "Cleanup completed"
         
