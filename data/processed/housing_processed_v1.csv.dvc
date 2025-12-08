@@ -1,5 +1,0 @@
-outs:
-- md5: c9a03354f14e082d4f13452bcd0374c7
-  size: 1807909
-  hash: md5
-  path: housing_processed_v1.csv

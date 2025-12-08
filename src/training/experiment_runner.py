@@ -17,7 +17,7 @@ warnings.filterwarnings('ignore')
 PROJECT_ROOT = Path(__file__).parent.parent.parent  
 
 def get_absolute_path(relative_path):
-    """Получить абсолютный путь"""
+
     path = PROJECT_ROOT / relative_path
     return str(path).replace('\\', '/')
 
@@ -81,9 +81,9 @@ def evaluate_model(y_true, y_pred, y_true_original=None, y_pred_original=None, u
     return metrics
 
 def run_experiment_1_linear():
-    print("\n" + "="*60)
+
     print("ЭКСПЕРИМЕНТ 1: Linear Regression (v1 data)")
-    print("="*60)
+
     
     try:
         df = load_data("data/processed/housing_processed_v1.csv")
@@ -107,12 +107,12 @@ def run_experiment_1_linear():
         print(f"MSE: {metrics.get('mse', 0):.2f}")
         print(f"MAE: {metrics.get('mae', 0):.2f}")
         
-        # Сохраняем модель
+
         models_dir = PROJECT_ROOT / "models"
         models_dir.mkdir(exist_ok=True)
         model_path = models_dir / "linear_model.joblib"
         joblib.dump(model, model_path)
-        print(f"✓ Модель сохранена: {model_path}")
+        print(f"Модель сохранена: {model_path}")
         
         return metrics
     except Exception as e:
@@ -122,9 +122,9 @@ def run_experiment_1_linear():
         return {}
 
 def run_experiment_2_random_forest():
-    print("\n" + "="*60)
+
     print("ЭКСПЕРИМЕНТ 2: Random Forest (v1 data)")
-    print("="*60)
+
     
     try:
         df = load_data("data/processed/housing_processed_v1.csv")
@@ -135,8 +135,7 @@ def run_experiment_2_random_forest():
         )
         
         print(f"Размер X_train: {X_train.shape}")
-        
-        # Упрощаем для скорости
+
         model = RandomForestRegressor(
             n_estimators=100,
             max_depth=20,
@@ -155,12 +154,12 @@ def run_experiment_2_random_forest():
         print(f"R²: {metrics.get('r2', 0):.4f}")
         print(f"MSE: {metrics.get('mse', 0):.2f}")
         
-        # Сохраняем модель
+
         models_dir = PROJECT_ROOT / "models"
         models_dir.mkdir(exist_ok=True)
         model_path = models_dir / "rf_model.joblib"
         joblib.dump(model, model_path)
-        print(f"✓ Модель сохранена: {model_path}")
+        print(f"Модель сохранена: {model_path}")
         
         return metrics
     except Exception as e:
@@ -170,9 +169,9 @@ def run_experiment_2_random_forest():
         return {}
 
 def run_experiment_3_xgboost_v2():
-    print("\n" + "="*60)
-    print("ЭКСПЕРИМЕНТ 3: XGBoost (v2 data with more features)")
-    print("="*60)
+
+    print("ЭКСПЕРИМЕНТ 3: XGBoost ")
+
     
     try:
         df = load_data("data/processed/housing_processed_v2.csv")
@@ -208,18 +207,17 @@ def run_experiment_3_xgboost_v2():
         print(f"R²: {metrics.get('r2', 0):.4f}")
         print(f"MSE: {metrics.get('mse', 0):.2f}")
         
-        # СОХРАНЕНИЕ МОДЕЛИ (ГЛАВНОЕ!)
+
         models_dir = PROJECT_ROOT / "models"
         models_dir.mkdir(exist_ok=True)
         model_path = models_dir / "best_model.joblib"
         joblib.dump(model, model_path)
-        print(f"✓ Модель сохранена: {model_path}")
+        print(f"Модель сохранена: {model_path}")
         
-        # Сохраняем также список фич, которые ожидает модель
         feature_names = X.columns.tolist()
         features_path = models_dir / "feature_names.joblib"
         joblib.dump(feature_names, features_path)
-        print(f"✓ Имена фич сохранены: {features_path}")
+        print(f"Имена фич сохранены: {features_path}")
         
         return metrics
     except Exception as e:
@@ -238,7 +236,7 @@ def main():
     print(f"Рабочая директория: {os.getcwd()}")
     print(f"Корень проекта: {PROJECT_ROOT}")
     
-    # Создаем необходимые директории
+ 
     (PROJECT_ROOT / "models").mkdir(exist_ok=True)
     (PROJECT_ROOT / "mlruns").mkdir(exist_ok=True)
     
@@ -254,9 +252,9 @@ def main():
         experiments.append(run_experiment_3_xgboost_v2())
     
     if experiments:
-        print("\n" + "="*60)
+
         print("ИТОГОВЫЕ РЕЗУЛЬТАТЫ ЭКСПЕРИМЕНТОВ")
-        print("="*60)
+
         
         best_r2 = -np.inf
         best_model_name = ""
@@ -271,18 +269,12 @@ def main():
                     if not np.isnan(v):
                         print(f"  {k}: {v:.4f}")
                 
-                # Определяем лучшую модель по R²
                 current_r2 = metrics.get('r2', -np.inf)
                 if current_r2 > best_r2:
                     best_r2 = current_r2
                     best_model_name = model_name
-        
-        print(f"\n{'='*60}")
+
         print(f"ЛУЧШАЯ МОДЕЛЬ: {best_model_name} (R² = {best_r2:.4f})")
-        print(f"{'='*60}")
-        
-        print("\n✓ Все модели сохранены в папке models/")
-        print("✓ Основная модель: models/best_model.joblib")
 
 if __name__ == "__main__":
     main()
